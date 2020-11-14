@@ -1,0 +1,56 @@
+.products {
+    margin: 0;
+    padding: 0.5em;
+    a {
+      padding: 0.354em 0.5em;
+      border-radius: 0.354em;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td {
+      padding: 0.5em;
+      margin: 0;
+    }
+  
+    tr.list_line_odd {
+      background-color: #effeef;
+    }
+  
+    td.image {
+      // Esconda isto em dispositivos moveis
+      display: none;
+  
+      // Assuma que qualquer coisa maior que 30em
+      // e para dispositivos nao moveis e pode  
+      // ser exibido.
+      @media (min-width: 30em) {
+        display: block;
+        img {
+          height: 11.3em;
+        }
+      }
+    }
+  
+    td.description {
+      h1 {
+        font-size: 1.4em;
+      }
+    }
+  
+    td.actions {
+      ul {
+        padding: 0;
+        list-style: none;
+        li {
+          padding: 0.5em 0.5em;
+        }
+      }
+    }
+  
+    tfoot {
+      td {
+        padding: 0.5em 0;
+      }
+    }
+  }

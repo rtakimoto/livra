@@ -1,0 +1,23 @@
+<article>
+<% if notice %>
+  <aside id="notice"><%= notice %></aside>
+<% end %>
+
+<h2>Seu Carrinho Virtual</h2>
+<table>
+
+  <%= render(cart.line_items) %>
+  <tfoot>
+    <tr>
+      <th colspan="2">Total:</th>
+      <th class="price"><%= sprintf("R$%0.02f", cart.total_price) %></th>
+    </tr>
+  </tfoot>
+</table>
+<div class="actions">
+  <%= button_to 'Esvaziar carrinho', @cart, method: :delete,
+        data: { confirm: 'Certeza?' } %>
+  <%= button_to 'Checkout', new_order_path, method: :get,
+        class: "checkout"%>
+  </div>
+</article>

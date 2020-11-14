@@ -1,0 +1,9 @@
+Prezado <%= @order.name %>
+    
+Muito obrigado pelo seu pedido na Livraria Virtual.
+
+Voce solicitou os seguintes itens:
+
+<%= render @order.line_items -%>
+
+Enviaremos um segundo e-mail quando os itens forem enviados.

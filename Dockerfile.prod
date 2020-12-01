@@ -1,0 +1,39 @@
+FROM ruby:2.6-stretch
+LABEL maintener='mtsuzuki@usp.br'
+ENV RAILS_ENV production
+ENV DATABASE_HOST=database
+ENV RAILS_ENV=production
+ENV SECRET_KEY_BASE=696e9159c4b54e2887e56ba301d51bbda4dfd07ae071e08ef71a7aa0cbfa309042f16f5911b8d548525a623dce91f81b664dd1248dacfdbcd5e6e5c5e5e79356
+ENV RAILS_LOG_TO_STDOUT=true
+ENV RAILS_SERVE_STATIC_FILES=true
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=my-production-password
+ENV POSTGRES_DB=livra_production
+
+# Permite que o apt opere com fontes baseadas em https
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends apt-transport-https
+
+# Assegure-se de instalar uma versao corrente para o Node
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+
+# Assegure-se de instalar uma versao corrente para o Yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends netcat nodejs yarn
+
+RUN curl -sL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg 13" | tee /etc/apt/sources.list.d/pgdg.list 
+RUN apt-get update -yqq && apt-get install -yqq postgresql-client
+        
+COPY . /usr/src/app
+RUN ["chmod", "+x", "/usr/src/app/wait-for"]
+
+
+WORKDIR /usr/src/app
+RUN bundle install
+RUN bin/rails webpacker:install
+RUN bin/rails webpacker:install:react
+RUN bin/rails assets:precompile
+    
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
+CMD ["bin/rails", "s", "-b", "0.0.0.0"]

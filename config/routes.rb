@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :contact, only: [ :index ]
+  resources :questions, only: [ :index ]
+  resources :news, only: [ :index ]
   devise_for :users
   resources :users
   resources :orders

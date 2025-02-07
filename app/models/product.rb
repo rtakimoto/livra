@@ -32,6 +32,7 @@ class Product < ApplicationRecord
         "/photo_store/#{id}.#{extension}"
     end
 
+  # save the deseired photo  
   private
     def store_photo
         if @file_data
